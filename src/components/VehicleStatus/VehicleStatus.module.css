@@ -1,0 +1,195 @@
+:root {
+    --options-opacity:0.35;
+}
+.mainWrapper {
+    position:absolute;
+    bottom:0px;
+    left:50%;
+    display:flex;
+    flex-direction: column;
+    width:600px;
+    height:300px;
+    transform: translate(-50%,0);
+    background-color: var(--sidebar-color-default);
+    z-index: 100;
+    user-select:text;
+
+    box-shadow: 0px 0px 3px 1px var(--sidebar-color-default);
+
+    transition: 0.5s;
+    opacity:0.9;
+}
+
+.mainWrapper:hover {
+    transform: scale(1.01) translate(-50%,0);
+    --options-opacity:1;
+}
+
+.mainWrapperHidden {
+    position:absolute;
+    bottom:-500px;
+    left:50%;
+    display:flex;
+    flex-direction: column;
+    width:600px;
+    height:300px;
+    transform: translate(-50%,0);
+    background-color: var(--sidebar-color-default);
+    z-index: 100;
+    user-select:text;
+
+    box-shadow: 0px 0px 3px 1px var(--sidebar-color-default);
+
+    transition: 0.3s;
+}
+
+.titleBar {
+    height:20px;
+    background-color: var(--sidebar-color-hovered);
+}
+
+.row {
+    display:flex;
+    flex-direction: row;
+    width:100%;
+}
+
+.rowUpper {
+    height:40%;
+    width:100%;
+}
+.rowBottom {
+    display: flex;
+    flex-direction: row;
+    height:60%;
+}
+
+.vehicleSprite {
+    display: flex;
+    height:100%;
+    width:33.3%;
+    justify-content: center;
+}
+
+.sensorCell {
+    width:33.33%;
+    display:flex;
+    flex-direction: column;
+    border: 1px solid black;
+}
+
+.sensorCell:nth-child(2) {
+    border-left: 0;
+    border-right:0;
+}
+
+.sensorValue {
+    height:20%;
+    width:100%;
+    display: flex;
+    justify-content: center;
+    margin: auto auto;
+}
+
+.sensorIcon {
+    margin: auto auto;
+}
+
+.vehicleInformation {
+    display: flex;
+    width:66%;
+    flex-direction: column;
+}
+
+.vehicleInfoLabel {
+    width:50%;
+    margin-left: 2px;
+    margin-top:auto;
+}
+
+.vehicleInfoValue {
+    margin-top:auto;
+}
+
+.vehicleInfoRow {
+    display:flex;
+    flex-direction: row;
+    width:100%;
+    height:33.3%;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.vehicleInfoRow:last-child {
+    border-bottom:0;
+}
+
+.sensorCell .tooltip {
+    visibility: hidden;
+    position:absolute;
+    background-color: gray;
+    padding:7px;
+    color: whitesmoke;
+    border-radius: 5px;
+}
+
+.tooltip {
+    user-select: none;
+    opacity:0;
+}
+
+.sensorCell:first-child .tooltip {
+    left:-180px;
+    bottom:90px;
+}
+
+.sensorCell:last-child .tooltip {
+    right:-180px;
+    bottom:90px;
+}
+
+.sensorCell:nth-child(2) .tooltip {
+    left:80px;
+    bottom:90px;
+}
+
+.sensorCell:hover .tooltip {
+    visibility: visible;
+    opacity:1;
+    transition:0.5s;
+}
+
+.optionsWrapper {
+    display:flex;
+    flex-direction: column;
+}
+
+.optionsWrapper>span {
+    opacity: var(--options-opacity);
+    text-align: center;
+    margin-left: 30%;
+    font-weight: 600;
+    margin-top:3px;
+    background-color: rgba(26, 36, 223, 0.5);
+    border-radius: 4px;
+    padding:1px;
+    padding-left: 1px;
+    padding-bottom:3px;
+    cursor:pointer;
+    transition: opacity 1s;
+    color: wheat;
+}
+
+.optionsWrapper>span:hover {
+    background-color: rgba(75, 79, 169, 0.5);
+    transition: background-color 0.3s;
+}
+
+.column {
+    display:flex;
+    flex-direction: column;
+}
+
+.vehicleSprite > .column {
+    user-select: none;
+}

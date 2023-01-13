@@ -1,0 +1,168 @@
+:root {
+    --sidebar-color-default:rgb(155, 155, 219);
+    --sidebar-color-default-light:rgb(165, 165, 229);
+    --sidebar-color-hovered:rgb(125,125,219);
+    --sidebar-color-hovered-light:rgb(135,135,229);
+}
+
+.sidebarDefault {
+    background-color: var(--sidebar-color-default);
+    box-shadow: 0px 0px 3px 3px var(--sidebar-color-default);
+    margin-right:3px;
+    width:200px;
+    display: flex;
+    flex-direction: column;
+    transition:2s;
+}
+
+
+.sidebarMobile {
+    background-color: var(--sidebar-color-default);
+    box-shadow: 0px 0px 3px 3px var(--sidebar-color-default);
+    margin-right:3px;
+    width:50px;
+}
+
+.sidebarDefault:hover {
+    background-color: var(--sidebar-color-hovered);
+    --sidebar-color-default-light: var(--sidebar-color-hovered-light);
+}
+
+.sidebarMobile:focus-within {
+    animation-name: sidebarColorAnim;
+    animation-duration: 1s;
+    background-color: var(--sidebar-color-hovered);
+}
+
+.vehicleSearch {
+    border-radius: 5px;
+    width: 90%; 
+}
+
+.sidebarRow {
+    display:flex;
+    justify-content: left;
+    margin: 2px 5px;
+    padding-left: 5px;
+    cursor: pointer;
+    color:rgb(15, 25,15);
+    font-weight: 600;
+
+}
+.sidebarRow:first-of-type {
+    margin:5px auto;
+}
+
+.sidebarRow:first-of-type:hover {
+    margin:5px auto;
+    transform: scale(1.0,1.0);
+}
+
+.sidebarRow:hover {
+    transform: scale(1.05, 1.05);
+    margin-left: 15px;
+    color:aliceblue;
+    font-weight: 700;
+}
+
+.sidebarRow:nth-child(even) {
+    background-color: var(--sidebar-color-default-light);
+    transition: background-color 2s;
+}
+
+.focused {
+    color:white;
+}
+
+.filterMainWrapper {
+    display:flex;
+    flex-direction: row;
+    font-size: small;
+    justify-content: space-between;
+    user-select: none;
+}
+
+.filterBtnsGroup {
+    display:flex;
+    flex-direction: row;
+    margin-right: 5px;
+}
+
+.filterBtnsGroup > * {
+    margin-left:5px;    
+}
+
+.filterGroup {
+    display: flex;
+    flex-direction: row;
+    margin-left:12px;
+}
+
+
+.filterLabel {
+    margin-right: 3px;
+}
+
+.filterStatus {
+    border-radius: 5px;
+    padding: 0px 2px 1px 2px;
+    font-size: 10px;
+    margin-top: 3px;
+    width:20px;
+    cursor:pointer;
+    text-align: center;
+    background-color: rgb(0,0,0,0);
+    z-index: 4;
+}
+
+.filterStatus.filterActive {
+    --background-color: rgb(90, 169, 90,0.8);
+}
+
+.filterStatus.filterInactive {
+    --background-color: rgb(67, 55, 55, 0.8);
+    color: white;
+
+}
+
+.filterStatusBckgColor {
+    background-color: rgb(67,55,55,0.8);
+    position: relative;
+    width:20px;
+    height: 100%;
+    top:-15px;
+
+
+    border: 1px black solid;
+    border-radius: 5px;
+    cursor:pointer;
+    z-index: -1;
+}
+
+.filterStatusOnColor {
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-color: rgb(90, 169, 90,0.8);
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.filterStatusOnColor.off {
+    width:0%;
+    transition: 0.3s;
+}
+
+.clearBtn {
+    cursor:pointer;
+}
+.clearBtn:hover {
+    text-decoration: underline;
+}
+
+.editBtn {
+    cursor:pointer;
+}
+.editBtn:hover { 
+    text-decoration: underline;
+}

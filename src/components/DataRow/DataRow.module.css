@@ -1,0 +1,18 @@
+.dataRow {
+    display:flex;
+    flex-direction: row;
+    width:80%;
+    justify-content: start;
+    border: 1px solid black;
+    padding:3px;
+}
+
+.label {
+    width:200px; 
+}
+
+
+
+.value {
+    width: 100%;
+}       
