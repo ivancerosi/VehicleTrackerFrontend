@@ -1,4 +1,4 @@
-import { FOCUS_VEHICLE, SET_VEHICLES, UNFOCUS_VEHICLE, RECENTER_MAP_FINISH, RECENTER_MAP, SET_TIMEOUT, CLEAR_TIMEOUT, EDIT_POPUP, ROUTE_POPUP, TRIPS_POPUP, NO_POPUP, TOGGLE_FILTER_POPUP } from "./actionTypes";
+import { FOCUS_VEHICLE, SET_VEHICLES, UNFOCUS_VEHICLE, RECENTER_MAP_FINISH, RECENTER_MAP, SET_TIMEOUT, CLEAR_TIMEOUT, EDIT_POPUP, ROUTE_POPUP, TRIPS_POPUP, NO_POPUP, TOGGLE_FILTER_POPUP, SET_FILTER_ACTIVE } from "./actionTypes";
 
 export const setVehiclesToRender = vehicles => ({
     type:SET_VEHICLES,
@@ -38,3 +38,5 @@ export const clearPopup=() => showPopup(NO_POPUP);
 
 
 export const toggleFilterPopup = () => ({type:TOGGLE_FILTER_POPUP});
+
+export const setFilterActive = (isActive) => ({type:SET_FILTER_ACTIVE,payload:isActive});

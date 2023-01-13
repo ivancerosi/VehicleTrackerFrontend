@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styles from './Sidebar.module.css';
 import { getAllVehicles } from '../../utils/Fetcher';
-import vehicles from '../../redux/reducers/vehicles';
-import {focusVehicle, setVehiclesToRender, unfocusVehicle, recenterMap, queueMethod, clearQueue} from '../../redux/actions';
+import {focusVehicle, setVehiclesToRender, unfocusVehicle, recenterMap, queueMethod, setFilterActive} from '../../redux/actions';
 import { getFocusedVehicle } from '../../redux/selectors';
 import { FilterPopup } from '../FilterPopup';
 
@@ -17,15 +16,14 @@ class Sidebar extends React.Component {
     constructor(props) {
         super(props);
         this.state={width:window.innerWidth, vehicles:[],previousTimeout:null
-            ,filterActive:false, filterFlipCd:false, updatedVehicleFilters:true,
-            showingFilterPopup:false, filterShowPopupCd:false,
+            ,filterActive:false, filterFlipCd:false,
+            showingFilterPopup:false, filterShowPopupCd:false, vehicleSearchTerm:"",
             filters:{}
         };
-        this.SCREEN_LIMIT=800;
+        this.SCREEN_LIMIT=760;
     }
 
     componentDidMount() {
-        console.log('mounted');
         window.addEventListener('resize',()=>{
             for (let timeout in timeouts) {
                 clearTimeout(timeout);
@@ -41,49 +39,6 @@ class Sidebar extends React.Component {
 
     }
 
-
-    componentDidUpdate() {
-        if (!this.state.updatedVehicleFilters) {
-            let vehiclesUpdated=this.state.vehicles;
-            vehiclesUpdated=vehiclesUpdated.filter(vehicle=>{
-                for (const filterIndex in this.state.filterState) {
-                    const filter=this.state.filterState[filterIndex];
-                    if (filter && filter.length>0) {
-                        switch (filterIndex) {
-                            case 'name':
-                                return vehicle.name.includes_insensitive(filter);
-                            case 'registration':
-                                return vehicle.registration.includes_insensitive(filter);
-                            case 'driver':
-                                return vehicle.driver.includes_insensitive(filter);
-                            case 'type':
-                                return vehicle.type.includes_insensitive(filter);
-                            case 'tempFrom':
-                                return vehicle.temperature>=filter;
-                            case 'tempTo':
-                                return vehicle.temperature<=filter;
-                            case 'speedFrom':
-                                return vehicle.speed>=filter;
-                            case 'speedTo':
-                                return vehicle.speed<=filter;
-                            case 'latFrom':
-                                return vehicle.lat>=filter;
-                            case 'latTo':
-                                return vehicle.lat<=filter;
-                            case 'lngFrom':
-                                return vehicle.lng>=filter;
-                            case 'lngTo':
-                                return vehicle.lng<=filter;
-                            default:
-                                throw new Error("Unknown filter parameter");
-                        }
-                    }
-                }
-            });
-            this.setState({updatedVehicleFilters:true, vehicles:vehiclesUpdated});
-        }
-    }
-
     searchVehiclesHandler = (e) => {
         e.preventDefault();
         alert(`typed: ${this.state.vehicleSearchTerm}`);
@@ -96,7 +51,6 @@ class Sidebar extends React.Component {
         const vehicles=this.state.vehicles.map(vehicle=>{
             vehicle.show=false;
             for (const field in vehicle) {
-                console.log(`Searching ${field}`);
                 try {
                     if (vehicle[field].toLowerCase().includes(term.toLowerCase())) {
                         //vehiclesToRender.push(vehicle);
@@ -114,8 +68,6 @@ class Sidebar extends React.Component {
             return vehicle;
         });
         this.setState({vehicles:vehicles});
-        //this.props.setVehiclesToRender(vehiclesToRender);
-        console.log(this.state.vehicles);
     };
 
     vehicleSearchOnChange = (e) => {
@@ -143,6 +95,7 @@ class Sidebar extends React.Component {
 
     flipFilterActive=()=>{
         if (!this.state.filterFlipCd) {
+            this.props.setFilterActive(!this.state.filterActive);
             this.setState({filterActive:!this.state.filterActive, filterFlipCd:true});
             this.props.queueMethod(this.setState.bind(this,{filterFlipCd:false}),300,"filterFlip");
         }
@@ -170,7 +123,70 @@ class Sidebar extends React.Component {
                 break;
             }
         }
-        this.setState({filterState:fstate, filterActive:filterActive, updatedVehicleFilters:false});
+        let vehiclesUpdated=this.state.vehicles.map(vehicle=>{
+            let filteredOut=false;
+
+            for (const filterIndex in fstate) {
+                const filter=fstate[filterIndex];
+
+                if (filter) {
+                    switch (filterIndex) {
+                        case 'name':
+                            filteredOut |= !vehicle.name.includes_insensitive(filter);
+                            break;
+                        case 'registration':
+                            filteredOut |= !vehicle.registration.includes_insensitive(filter);
+                            break;
+                        case 'driver':
+                            filteredOut |= !vehicle.driver.includes_insensitive(filter);
+                            break;
+                        case 'type':
+                            filteredOut |= !vehicle.type.includes_insensitive(filter);
+                            break;
+                        case 'tempFrom':
+                            if ((Number(vehicle.temperature) && filter) == false) break;
+                            filteredOut |= !vehicle.temperature>=filter;
+                            break;
+                        case 'tempTo':
+                            if ((Number(vehicle.temperature) && filter) == false) break;
+                            filteredOut |= !vehicle.temperature<=filter;
+                            break;
+                        case 'speedFrom':
+                            if ((Number(vehicle.temperature) && filter) == false) break;
+                            filteredOut |= !vehicle.speed>=filter;
+                            break;
+                        case 'speedTo':
+                            if ((Number(vehicle.temperature) && filter) == false) break;
+                            filteredOut |= !vehicle.speed<=filter;
+                            break;
+                        case 'latFrom':
+                            if ((Number(vehicle.temperature) && filter) == false) break;
+                            filteredOut |= !vehicle.lat>=filter;
+                            break;
+                        case 'latTo':
+                            if ((Number(vehicle.temperature) && filter) == false) break;
+                            filteredOut |= !vehicle.lat<=filter;
+                            break;
+                        case 'lngFrom':
+                            if ((Number(vehicle.temperature) && filter) == false) break;
+                            filteredOut |= !vehicle.lng>=filter;
+                            break;
+                        case 'lngTo':
+                            if ((Number(vehicle.temperature) && filter) == false) break;
+                            filteredOut |= !vehicle.lng<=filter;
+                            break;
+                        default:
+                            throw new Error("Unknown filter parameter");
+                    }
+                    if (filteredOut) break;
+                }
+            }
+            vehicle.filteredOut=filteredOut;
+            return vehicle;
+        });
+        this.setState({filterState:fstate, filterActive:filterActive, vehicles:vehiclesUpdated});
+        this.props.setVehiclesToRender(vehiclesUpdated);
+        this.props.setFilterActive(filterActive);
     }
 
 
@@ -189,13 +205,16 @@ class Sidebar extends React.Component {
             </div>
             <div className={styles.filterBtnsGroup}>
                 <div className={styles.editBtn} onClick={this.toggleFilterPopupHandler}>EDIT</div>
-                <div className={styles.clearBtn} onClick={()=>{this.setState({filterState:{}, filterActive:false}); this.vehicleSearchOnChange({target:{value:""}})}}>CLEAR</div>
+                <div className={styles.clearBtn} onClick={()=>{this.setState({filterActive:false}); this.setFilterState({}); this.vehicleSearchOnChange({target:{value:""}})}}>CLEAR</div>
             </div>
         </div>);
     }
 
     renderVehicles= ()=>{
-        return this.state.vehicles.filter(vehicle=>vehicle.show&&!vehicles.filteredOut).map(vehicle=> (
+        if (!this.state.vehicles || this.state.vehicles.length<1) return;
+        const filteredList= this.state.vehicles.filter(vehicle => (vehicle.show && !vehicle.filteredOut) || (!this.state.filterActive&&vehicle.show))
+;
+        return filteredList.map(vehicle=> (
             <div key={vehicle.key} className={styles.sidebarRow+" "+this.isFocused(vehicle)}
              onClick={()=>this.props.queueMethod(this.focusVehicleHandler.bind(this,vehicle))}>{vehicle.name}</div>
         ));
@@ -217,13 +236,11 @@ class Sidebar extends React.Component {
     }
 
     render() {
-        console.log(this.SCREEN_LIMIT);
-        console.log(this.state.width);
         if (this.state.width<this.SCREEN_LIMIT) return this.renderMobile();
         return this.renderDefault();
     }
 }
 
-const mapDispatchToProps=({ setVehiclesToRender, focusVehicle, unfocusVehicle, recenterMap, queueMethod });
+const mapDispatchToProps=({ setVehiclesToRender, focusVehicle, unfocusVehicle, recenterMap, queueMethod, setFilterActive });
 const mapStateToProps=(state)=>{return {focusedVehicle:getFocusedVehicle(state)}};
 export default connect(mapStateToProps,mapDispatchToProps)(Sidebar);

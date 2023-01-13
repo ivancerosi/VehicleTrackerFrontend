@@ -2,7 +2,7 @@ import React from 'react';
 import { Map, Marker} from "pigeon-maps"
 import { connect } from 'react-redux';
 import styles from './Map.module.css';
-import { getFocusedVehicle, getVehiclesToRender, isRecenterPending, isVehicleInFocus } from '../../redux/selectors';
+import { getFocusedVehicle, getVehiclesToRender, isRecenterPending, isVehicleInFocus, isFilterActive } from '../../redux/selectors';
 import { recenterMap, recenterMapFinish, queueMethod, focusVehicle, unfocusVehicle, showEdit, showRoute, clearPopup, showTrips } from '../../redux/actions';
 import VehicleStatus from '../VehicleStatus';
 import {FaTractor,FaBus,FaCar,FaTruck,FaShip,FaHelicopter, FaQuestion} from 'react-icons/fa';
@@ -70,12 +70,11 @@ class MyMap extends React.Component {
                 center={[this.state.lat,this.state.lng]}
                 onBoundsChanged={({center,zoom})=>{
                     this.setState({lat:center[0],lng:center[1],zoom:zoom, markerWidth:zoom*ZOOM_FACTOR});
-                    console.log(`zoom: ${zoom}`);
                 }}
                 onClick={({event, latLng,pixel})=>{this.props.unfocusVehicle(); this.setState({clickedLatLng:latLng});}}
             >
                 
-                {this.props.vehicles.map(vehicle=>(<Marker key={vehicle.key} anchor={[vehicle.lat, vehicle.lng]}>
+                {this.props.vehicles.filter(vehicle=>!vehicle.filteredOut || !this.props.isFilterActive).map(vehicle=>(<Marker key={vehicle.key} anchor={[vehicle.lat, vehicle.lng]}>
                     <div className={styles.iconWrapper} onClick={()=>{this.props.queueMethod(this.focusVehicle.bind(this,vehicle))}}>{this.renderSprite(vehicle.type,this.state.zoom*ZOOM_FACTOR,
                          this.props.focusedVehicle.key==vehicle.key?"green":"black")}</div>
                 </Marker>))}
@@ -90,7 +89,8 @@ const mapStateToProps=(state)=>{
         vehicles:getVehiclesToRender(state),
         recenterPending: isRecenterPending(state),
         focusedVehicle: getFocusedVehicle(state),
-        isVehicleInFocus: isVehicleInFocus(state)
+        isVehicleInFocus: isVehicleInFocus(state),
+        isFilterActive: isFilterActive(state)
     };
 };
 const mapDispatchToProps=({recenterMapFinish, queueMethod, focusVehicle, unfocusVehicle, showEdit, showRoute, showTrips, clearPopup});

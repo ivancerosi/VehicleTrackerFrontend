@@ -17,3 +17,5 @@ export const showingRoutePopup= state => state.ui.showingPopup==ROUTE_POPUP;
 export const showingTripsPopup= state => state.ui.showingPopup==TRIPS_POPUP;
 
 export const showingFilterPopup = state => state.ui.showingFilterPopup;
+
+export const isFilterActive = state => state.vehicles.filterActive;

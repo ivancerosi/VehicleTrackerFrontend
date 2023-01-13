@@ -37,7 +37,6 @@ export class FilterPopup extends React.Component {
     }
 
     submitHandler=()=> {
-        console.log(this.usernameRef);
         this.props.setFilterState({
             name:this.usernameRef.current.value,
             registration:this.registrationRef.current.value,
@@ -60,33 +59,28 @@ export class FilterPopup extends React.Component {
         return (<Popup onClose={this.props.onClose} height={"460px"} style={{left:"188px", top:"0px", transform:"translate(0%,0%)"}}>
             <div className={styles.dataGroup}>
                 <div className={styles.groupTitle}>Metadata</div>
-                <DataRow label={"Name"} value={this.state.name} inputRef={this.usernameRef} style={{"borderBottom":"none"}}
-                 onChange={(e)=>this.setState({name:e.target.value})} />
-                <DataRow label={"Registration"} value={this.state.registration} inputRef={this.registrationRef} style={{"borderBottom":"none"}}
-                 onChange={(e)=>this.setState({registration:e.target.value})} />
-                <DataRow label={"Vehicle type"} value={this.state.type} inputRef={this.vehicleRef} style={{"borderBottom":"none"}}
-                 onChange={(e)=>this.setState({type:e.target.value})} />
-                <DataRow label={"Driver"} value={this.state.driver} inputRef={this.driverRef}
-                 onChange={(e)=>this.setState({driver:e.target.value})} />
+                <DataRow label={"Name"} defaultValue={this.state.name} inputRef={this.usernameRef} style={{"borderBottom":"none"}} />
+                <DataRow label={"Registration"} defaultValue={this.state.registration} inputRef={this.registrationRef} style={{"borderBottom":"none"}} />
+                <DataRow label={"Vehicle type"} defaultValue={this.state.type} inputRef={this.vehicleRef} style={{"borderBottom":"none"}} />
+                <DataRow label={"Driver"} defaultValue={this.state.driver} inputRef={this.driverRef} />
             </div>
             <div className={styles.dataGroup}>
                 <div className={styles.groupTitle}>Sensor data</div>
-                <DataRow label={"Latitude from"} value={this.state.latFrom} inputRef={this.latFromRef}
-                 style={{"borderBottom":"none"}} onChange={(e)=>this.setState({latFrom:e.target.value})} />
-                <DataRow label={"Latitude to"} value={this.state.latTo} inputRef={this.latToRef}
-                 style={{"borderBottom":"none"}} onChange={(e)=>this.setState({latTo:e.target.value})}/>
-                <DataRow label={"Longitude from"} value={this.state.lngFrom} inputRef={this.lngFromRef}
-                 style={{"borderBottom":"none"}} onChange={(e)=>this.setState({lngFrom:e.target.value})}/>
-                <DataRow label={"Longitude to"} value={this.state.lngTo} inputRef={this.lngToRef}
-                 style={{"borderBottom":"none"}} onChange={(e)=>this.setState({lngTo:e.target.value})} />
-                <DataRow label={"Speed from"} value={this.state.speedFrom} inputRef={this.speedFromRef}
-                 style={{"borderBottom":"none"}} onChange={(e)=>this.setState({speedFrom:e.target.value})} />
-                <DataRow label={"Speed to"} value={this.state.speedTo} inputRef={this.speedToRef}
-                 style={{"borderBottom":"none"}} onChange={(e)=>this.setState({speedTo:e.target.value})}/>
-                <DataRow label={"Temperature from"} value={this.state.tempFrom} inputRef={this.tempFromRef}
-                 style={{"borderBottom":"none"}} onChange={(e)=>this.setState({tempFrom:e.target.value})}/>
-                <DataRow label={"Temperature to"} value={this.state.tempTo} inputRef={this.tempToRef}
-                 onChange={(e)=>this.setState({tempTo:e.target.value})}/>
+                <DataRow label={"Latitude from"} defaultValue={this.state.latFrom} inputRef={this.latFromRef}
+                 style={{"borderBottom":"none"}} />
+                <DataRow label={"Latitude to"} defaultValue={this.state.latTo} inputRef={this.latToRef}
+                 style={{"borderBottom":"none"}} />
+                <DataRow label={"Longitude from"} defaultValue={this.state.lngFrom} inputRef={this.lngFromRef}
+                 style={{"borderBottom":"none"}} />
+                <DataRow label={"Longitude to"} defaultValue={this.state.lngTo} inputRef={this.lngToRef}
+                 style={{"borderBottom":"none"}} />
+                <DataRow label={"Speed from"} defaultValue={this.state.speedFrom} inputRef={this.speedFromRef}
+                 style={{"borderBottom":"none"}} />
+                <DataRow label={"Speed to"} defaultValue={this.state.speedTo} inputRef={this.speedToRef}
+                 style={{"borderBottom":"none"}} />
+                <DataRow label={"Temperature from"} defaultValue={this.state.tempFrom} inputRef={this.tempFromRef}
+                 style={{"borderBottom":"none"}} />
+                <DataRow label={"Temperature to"} defaultValue={this.state.tempTo} inputRef={this.tempToRef} />
             </div>
             <div className={styles.buttonGroup}>
                 <div className={styles.button} onClick={this.props.onClose}>Cancel</div>

@@ -14,12 +14,14 @@ export default class DataRow extends React.Component {
     renderInput = () => {
         switch (this.props.type) {
             case 'select':
-                return (<div className={styles.value}><select ref={this.props.inputRef} name={this.props.name} value={this.props.value} onChange={this.onChangeHandler}>
+                return (<div className={styles.value}><select ref={this.props.inputRef} name={this.props.name}
+                 value={this.props.value} defaultValue={this.props.defaultValue} onChange={this.onChangeHandler}> 
                     {this.props.options.map(option=>(<option name={option.label}>{option.value}</option>))}
                 </select></div>);
             case 'text':
             default:
-                return (<input type="text" ref={this.props.inputRef} className={styles.value} value={this.props.value} onChange={this.onChangeHandler} />);
+                return (<input type="text" ref={this.props.inputRef} className={styles.value} value={this.props.value}
+                 defaultValue={this.props.defaultValue} onChange={this.onChangeHandler} />);
 
         }
     }
