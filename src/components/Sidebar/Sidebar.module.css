@@ -20,7 +20,11 @@
     background-color: var(--sidebar-color-default);
     box-shadow: 0px 0px 3px 3px var(--sidebar-color-default);
     margin-right:3px;
-    width:50px;
+    width:20px;
+    position:absolute;
+    left:0px;
+    z-index: 996;
+    height:100vh;
 }
 
 .sidebarDefault:hover {
@@ -49,18 +53,18 @@
     font-weight: 600;
 
 }
-.sidebarRow:first-of-type {
+.sidebarRow:nth-child(2) {
     margin:5px auto;
+    color: red;
 }
 
-.sidebarRow:first-of-type:hover {
+.sidebarRow:nth-child(2):hover {
     margin:5px auto;
     transform: scale(1.0,1.0);
 }
 
 .sidebarRow:hover {
     transform: scale(1.05, 1.05);
-    margin-left: 15px;
     color:aliceblue;
     font-weight: 700;
 }
@@ -165,4 +169,25 @@
 }
 .editBtn:hover { 
     text-decoration: underline;
+}
+
+.alarm {
+    margin: 5px 2px 5px auto;
+    cursor: pointer;
+    user-select: none;
+    background-color: red;
+    width:100px;
+    font-size: 12px;
+    text-align: center;
+    color: white;
+    border-radius: 5px;
+}
+
+.iconWrapper {
+    display: flex;
+    width:100%;
+    justify-content: center;
+    height:100%;
+    align-items: center;
+    cursor:pointer;
 }

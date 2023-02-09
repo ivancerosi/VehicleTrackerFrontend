@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import styles from "./UpperInfoBar.module.css";
+import { getIsSidebarExpanded, isMobile } from "../../redux/selectors";
 
 class UpperInfoBar extends React.Component {
     constructor(props) {
@@ -9,8 +10,15 @@ class UpperInfoBar extends React.Component {
     }
 
     renderCoordinates() {
-        return (<div className={styles.coordinates}>
-            {this.props.location}
+        if (this.props.isSidebarExpanded && this.props.isMobile) return;
+        if (this.props.isMobile) {
+            return (<div className={styles.coordinates}>
+                {`Latitude: ${parseFloat(this.props.location.lat).toFixed(5)}`}
+                <br/>
+                {`Longitude: ${parseFloat(this.props.location.lng).toFixed(5)}`}
+            </div>);
+        } else return (<div className={styles.coordinates}>
+            {`Latitude: ${parseFloat(this.props.location.lat).toFixed(5)} Longitude:${parseFloat(this.props.location.lng).toFixed(5)}`}
         </div>);
     }
 
@@ -25,5 +33,5 @@ class UpperInfoBar extends React.Component {
         </div>);
     }
 }
-
-export default connect(null,null)(UpperInfoBar);
+const mapStateToProps=(state)=>{return {isMobile: isMobile(state), isSidebarExpanded: getIsSidebarExpanded(state)}};
+export default connect(mapStateToProps,null)(UpperInfoBar);

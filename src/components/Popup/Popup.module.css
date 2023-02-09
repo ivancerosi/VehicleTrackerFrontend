@@ -6,6 +6,7 @@
     transform: translate(-50%,-50%);
     z-index: 999;
     color: black;
+    border-radius: 5px;
 }
 .popupMain>*{
     color:black;

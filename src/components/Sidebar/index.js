@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styles from './Sidebar.module.css';
-import { getAllVehicles } from '../../utils/Fetcher';
-import {focusVehicle, setVehiclesToRender, unfocusVehicle, recenterMap, queueMethod, setFilterActive} from '../../redux/actions';
-import { getFocusedVehicle } from '../../redux/selectors';
+import { getAllVehicles, getAllVehiclesMock } from '../../utils/Fetcher';
+import {focusVehicle, setVehiclesToRender, unfocusVehicle, recenterMap, queueMethod, setFilterActive, setGlobalVehicleRefresh, expandSidebar } from '../../redux/actions';
+import { getFocusedVehicle, getIsSidebarExpanded, isMobile } from '../../redux/selectors';
 import { FilterPopup } from '../FilterPopup';
-
-const timeouts=[];
+import { VehicleAdapter } from '../../utils/VehicleAdapter';
+import {TfiArrowCircleRight} from 'react-icons/tfi';
+import AlarmPopup from '../AlarmPopup';
 
 String.prototype.includes_insensitive= function (searchString, position) {
     return this.toLowerCase().includes(searchString.toLowerCase(), position);
@@ -18,25 +19,23 @@ class Sidebar extends React.Component {
         this.state={width:window.innerWidth, vehicles:[],previousTimeout:null
             ,filterActive:false, filterFlipCd:false,
             showingFilterPopup:false, filterShowPopupCd:false, vehicleSearchTerm:"",
-            filters:{}
+            showingAlarmPopup:false,
+            filters:{},
+            
         };
-        this.SCREEN_LIMIT=760;
     }
 
-    componentDidMount() {
-        window.addEventListener('resize',()=>{
-            for (let timeout in timeouts) {
-                clearTimeout(timeout);
-            }
-            const timeoutId=setTimeout(()=>this.setState({width:window.innerWidth}),100);
-            timeouts.unshift(timeoutId);
-        });
-
-        getAllVehicles().then(list=>{
+    refreshVehicles=()=>{
+        getAllVehicles(list=>{
+            list=VehicleAdapter(list);
             this.setState({vehicles:list});
             this.props.setVehiclesToRender(list);
-        });
+        }, error=>alert(`Unable to fetch vehicles: ${error}`));
+    };
 
+    componentDidMount() {
+        this.props.setGlobalVehicleRefresh(this.refreshVehicles.bind(this));
+        this.refreshVehicles();
     }
 
     searchVehiclesHandler = (e) => {
@@ -113,7 +112,12 @@ class Sidebar extends React.Component {
         this.setState({showingFilterPopup:!this.state.showingFilterPopup});
     };
 
-    closeFilterPopup=()=>this.setState({showingFilterPopup:!this.state.showingFilterPopup});
+    toggleAlarmPopupHandler = () => {
+        this.setState({showingAlarmPopup:!this.state.showingAlarmPopup});
+    };
+    closeAlarmPopup=()=>{
+        this.setState({showingAlarmPopup:false});
+    }
 
     setFilterState=(fstate)=>{
         let filterActive=false;
@@ -192,7 +196,8 @@ class Sidebar extends React.Component {
 
     renderFilterOptions() {
         return (<div className={styles.filterMainWrapper}>
-            {this.state.showingFilterPopup && <FilterPopup setFilterState={this.setFilterState.bind(this)} onSubmit={null} onClose={this.closeFilterPopup}
+            {this.state.showingAlarmPopup && <AlarmPopup isMobile={this.props.isMobile} onSubmit={null} onClose={this.closeAlarmPopup} vehicle={this.props.focusedVehicle} />}
+            {this.state.showingFilterPopup && <FilterPopup setFilterState={this.setFilterState.bind(this)} onSubmit={null} onClose={this.toggleFilterPopupHandler} // ADD onSUbmit
              filterState={this.state.filterState} />}
             <div className={styles.filterGroup}>
                 <div className={styles.filterLabel}>Filters: </div>
@@ -221,8 +226,18 @@ class Sidebar extends React.Component {
     }
 
 
+    expandHandler=()=>{
+        this.props.expandSidebar(!this.props.sidebarExpanded);
+    }
+    
+    addMobileStyles() {
+        if (this.props.isMobile) return {position:'absolute',left:'0px', height:'100vh', zIndex:'101'};
+        return;
+    }
+
     renderDefault() {
-        return (<div className={styles.sidebarDefault} >
+        return (<div className={styles.sidebarDefault} style={this.addMobileStyles()} >
+            <div className={styles.alarm} onClick={this.toggleAlarmPopupHandler}>ALARM SETTINGS</div>
             <div className={styles.sidebarRow}><form onSubmit={this.searchVehiclesHandler}><input type="text" className={styles.vehicleSearch} value={this.state.vehicleSearchTerm} onChange={this.vehicleSearchOnChange}></input></form></div>
             {this.renderFilterOptions()}
             <div><hr/></div>
@@ -232,15 +247,17 @@ class Sidebar extends React.Component {
     }
 
     renderMobile() {
-        return (<div className={styles.sidebarMobile}>Mobile</div>);
+        return (<div className={styles.sidebarMobile}><div className={styles.iconWrapper} onClick={this.expandHandler}><TfiArrowCircleRight size={28} color={"black"}/></div>
+        {this.renderFilterOptions()}
+        </div>);
     }
 
     render() {
-        if (this.state.width<this.SCREEN_LIMIT) return this.renderMobile();
+        if (this.props.isMobile  && !this.props.sidebarExpanded) return this.renderMobile();
         return this.renderDefault();
     }
 }
 
-const mapDispatchToProps=({ setVehiclesToRender, focusVehicle, unfocusVehicle, recenterMap, queueMethod, setFilterActive });
-const mapStateToProps=(state)=>{return {focusedVehicle:getFocusedVehicle(state)}};
+const mapDispatchToProps=({ setVehiclesToRender, focusVehicle, unfocusVehicle, recenterMap, queueMethod, setFilterActive, setGlobalVehicleRefresh, expandSidebar });
+const mapStateToProps=(state)=>{return {focusedVehicle:getFocusedVehicle(state), sidebarExpanded: getIsSidebarExpanded(state), isMobile: isMobile(state)}};
 export default connect(mapStateToProps,mapDispatchToProps)(Sidebar);

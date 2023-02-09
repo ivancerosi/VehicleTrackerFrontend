@@ -1,0 +1,72 @@
+.dataGroup {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonGroup {
+    display:flex;
+    flex-direction: row;
+    width:20%;
+    margin: 0 auto;
+    justify-content: start;
+}
+
+.button {
+    background-color: green;
+    padding: 3px 20px;
+    margin: 15px 5px;
+    border-radius: 6px;
+    cursor:pointer;
+    color:rgb(19, 6, 6);
+}
+
+.button:first-of-type {
+    background-color: red;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    margin:5px;
+}
+
+.emailRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width:95%;
+    margin: 5px;
+}
+
+.groupTitle {
+    font-weight: bold;
+    margin:10px auto;
+}
+
+.emailListContainer {
+    height:200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overflow-wrap:break-word;
+    width:80%;
+    background-color: whitesmoke;
+    border-radius: 5px;
+}
+
+.emailDisplay {
+    display: block;
+    word-wrap: break-word;
+    white-space: normal;
+    width:90%;
+}
+
+.buttonAddEmail {
+    margin-left: 10px;
+    background-color: lightblue;
+    border-radius: 5px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    padding:5px;
+    cursor:pointer;
+}

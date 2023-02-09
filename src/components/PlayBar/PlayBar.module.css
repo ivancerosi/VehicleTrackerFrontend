@@ -1,0 +1,75 @@
+.mainWrapper {
+    position:absolute;
+    bottom:0px;
+    left:50%;
+    display:flex;
+    flex-direction: column;
+    width:600px;
+    height:100px;
+    transform: translate(-50%,0);
+    background-color: var(--sidebar-color-default);
+    z-index: 997;
+    user-select:text;
+
+    box-shadow: 0px 0px 3px 1px var(--sidebar-color-default);
+
+    transition: 0.5s;
+    opacity:0.9;
+}
+
+.mainWrapper:hover {
+    transform: scale(1.01) translate(-50%,0);
+}
+
+
+.playbar {
+    position:relative;
+    top:30%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:90%;
+    height:20px;
+    background-color: gray;
+    border-radius: 10px;
+    cursor:pointer;
+
+}
+
+.playdot {
+    height:20px;
+    width:10px;
+    background-color: black;
+    border-radius: 2px;
+    position:relative;
+    left:0%;
+    transform:translate(-50%,0%);
+}
+
+
+.topbar {
+    display: flex;
+    background-color: var(--sidebar-color-default);
+    justify-content: right;
+    margin-right: 5px;
+}
+
+.buttonContainer {
+    display:flex;
+    flex-direction: row;
+    position:relative;
+    top:30px;
+    justify-content: center;
+}
+
+.closeButton {
+    cursor: pointer;
+}
+
+.ptrWrap {
+    cursor:pointer;
+}
+
+.timeWrapper {
+    position:absolute;
+    left:10px;
+}

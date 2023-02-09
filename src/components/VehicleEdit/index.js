@@ -10,11 +10,17 @@ class VehicleEdit extends React.Component {
         this.state={vehicleTypes:[],vehicleRegistration:this.props.vehicle.registration, vehicleName:this.props.vehicle.name, vehicleType:this.props.vehicle.type};
     }
 
-    data={};
-    submitHandler=()=>{
-        this.props.onSubmit(this.data).then(resp=>{
-            if (resp=="success") this.props.onClose();
-            else alert("error");
+    submitHandler=()=>{        
+        this.props.vehicle.name=this.state.vehicleName;
+        this.props.vehicle.type=this.state.vehicleType;
+        this.props.vehicle.registration=this.state.vehicleRegistration;
+        this.props.vehicle.label=this.state.vehicleName;
+
+        this.props.onSubmit(this.props.vehicle).then(resp=>{
+            if (resp.ok) {
+                this.props.onClose();
+            }
+            else alert("Failed to update vehicle");
         });
     }
 
@@ -38,8 +44,16 @@ class VehicleEdit extends React.Component {
         getValidVehicleTypes().then(resp=>this.setState({vehicleTypes:resp}));
     }
 
+    renderStyles() {
+        if (this.props.isMobile) {
+            return {left:"50%", top:"50%", transform:"translate(-50%,-50%)"};
+        } else {
+            return {top:"auto", bottom:"410px", transform:"translate(-1%,25%)"};
+        }
+    }
+
     render() {
-        return (<Popup onClose={this.props.onClose} height={"180px"} style={{top:"auto", bottom:"210px", transform:"translate(-1%,25%)"}}>
+        return (<Popup onClose={this.props.onClose} height={"180px"} style={this.renderStyles()}>
             <div className={styles.mainWrapper}>
             <div className={styles.dataGroup}>
                 <DataRow label="Label" value={this.state.vehicleName} onChange={(e)=>this.inputHandler('name',e.target.value)}/>

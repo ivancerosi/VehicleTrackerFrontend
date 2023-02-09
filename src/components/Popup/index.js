@@ -18,7 +18,7 @@ class Popup extends React.Component {
         const width=this.props.width?this.props.width:DEFAULT_WIDTH;
         const height=this.props.height?this.props.height:DEFAULT_HEIGHT;
 
-        return {...this.props.style,color, width, height}
+        return {...this.props.style,color, minWidth:width, minHeight:height}
     };
 
     tryClose=()=>{

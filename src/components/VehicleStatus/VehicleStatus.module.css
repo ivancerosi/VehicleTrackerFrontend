@@ -11,7 +11,7 @@
     height:300px;
     transform: translate(-50%,0);
     background-color: var(--sidebar-color-default);
-    z-index: 100;
+    z-index: 997;
     user-select:text;
 
     box-shadow: 0px 0px 3px 1px var(--sidebar-color-default);
@@ -55,13 +55,13 @@
 }
 
 .rowUpper {
-    height:40%;
+    height:45%;
     width:100%;
 }
 .rowBottom {
     display: flex;
     flex-direction: row;
-    height:60%;
+    height:55%;
 }
 
 .vehicleSprite {

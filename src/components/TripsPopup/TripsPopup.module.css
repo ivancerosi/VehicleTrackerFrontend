@@ -25,7 +25,25 @@
     background-color: red;
 }
 
-.groupTitle {
-    font-weight: bold;
-    margin:10px auto;
+.row {
+    display: flex;
+    flex-direction: row;
+    margin:5px;
+}
+
+.emailRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width:80%;
+    margin: 5px;
+}
+
+.tripRow:hover {
+    background-color: lightblue;
+}
+
+.tripRow {
+    cursor: pointer;
+    border-radius: 5px;
 }

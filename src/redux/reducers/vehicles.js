@@ -1,12 +1,20 @@
-import { INCREMENT, SET_VEHICLES, FOCUS_VEHICLE, UNFOCUS_VEHICLE, SET_FILTER_ACTIVE } from "../actionTypes";
+import { INCREMENT, SET_VEHICLES, FOCUS_VEHICLE, UNFOCUS_VEHICLE, SET_FILTER_ACTIVE, UPDATE_VEHICLE_DATA, SELECT_VEHICLE_POSITION } from "../actionTypes";
 const initialState = {
     vehiclesToRender:[],
     vehicleInFocus: {key:null},
-    filterActive: false
+    filterActive: false,
+    lastUpdate: null,
+    selectedPosition: null
 };
 
 export default function(state=initialState, action) {
     switch (action.type) {
+        case UPDATE_VEHICLE_DATA: {
+            return {
+                ...state,
+                lastUpdate: action.payload
+            }
+        }
         case SET_FILTER_ACTIVE: {
             return {
                 ...state,
@@ -30,6 +38,12 @@ export default function(state=initialState, action) {
                 ...state,
                 vehiclesToRender:action.payload
             };
+        }
+        case SELECT_VEHICLE_POSITION: {
+            return {
+                ...state,
+                selectedPosition:action.payload
+            }
         }
         default:
             return state;
