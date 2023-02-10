@@ -54,9 +54,13 @@ export class FilterPopup extends React.Component {
         this.props.onClose();
     }
 
+    decideWidth(arg) {
+        if (this.props.isMobile) return "95vw";
+        else return arg;
+    }
 
     render() {
-        return (<Popup onClose={this.props.onClose} height={"460px"} style={{left:"188px", top:"0px", transform:"translate(0%,0%)"}}>
+        return (<Popup onClose={this.props.onClose} height={"460px"} width={this.decideWidth.bind(this)("360px")}>
             <div className={styles.dataGroup}>
                 <div className={styles.groupTitle}>Metadata</div>
                 <DataRow label={"Name"} defaultValue={this.state.name} inputRef={this.usernameRef} style={{"borderBottom":"none"}} />

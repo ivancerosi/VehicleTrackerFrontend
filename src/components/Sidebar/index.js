@@ -197,7 +197,7 @@ class Sidebar extends React.Component {
     renderFilterOptions() {
         return (<div className={styles.filterMainWrapper}>
             {this.state.showingAlarmPopup && <AlarmPopup isMobile={this.props.isMobile} onSubmit={null} onClose={this.closeAlarmPopup} vehicle={this.props.focusedVehicle} />}
-            {this.state.showingFilterPopup && <FilterPopup setFilterState={this.setFilterState.bind(this)} onSubmit={null} onClose={this.toggleFilterPopupHandler} // ADD onSUbmit
+            {this.state.showingFilterPopup && <FilterPopup  isMobile={this.props.isMobile} setFilterState={this.setFilterState.bind(this)} onSubmit={null} onClose={this.toggleFilterPopupHandler} // ADD onSUbmit
              filterState={this.state.filterState} />}
             <div className={styles.filterGroup}>
                 <div className={styles.filterLabel}>Filters: </div>
@@ -231,13 +231,16 @@ class Sidebar extends React.Component {
     }
     
     addMobileStyles() {
-        if (this.props.isMobile) return {position:'absolute',left:'0px', height:'100vh', zIndex:'101'};
+        if (this.props.isMobile) return {position:'absolute',left:'0px', height:'100vh', zIndex:'998'};
         return;
     }
 
     renderDefault() {
         return (<div className={styles.sidebarDefault} style={this.addMobileStyles()} >
-            <div className={styles.alarm} onClick={this.toggleAlarmPopupHandler}>ALARM SETTINGS</div>
+            <div style={{display:"flex", flexDirection:"row"}}>
+                {this.props.isMobile && <div className={styles.hideBtn} onClick={this.expandHandler}>HIDE</div>}
+                <div className={styles.alarm} onClick={this.toggleAlarmPopupHandler}>ALARM SETTINGS</div>
+            </div>
             <div className={styles.sidebarRow}><form onSubmit={this.searchVehiclesHandler}><input type="text" className={styles.vehicleSearch} value={this.state.vehicleSearchTerm} onChange={this.vehicleSearchOnChange}></input></form></div>
             {this.renderFilterOptions()}
             <div><hr/></div>

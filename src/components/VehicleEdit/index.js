@@ -50,10 +50,15 @@ class VehicleEdit extends React.Component {
         } else {
             return {top:"auto", bottom:"410px", transform:"translate(-1%,25%)"};
         }
+    }   
+    decideWidth(arg) {
+        if (this.props.isMobile) return "95vw";
+        else return arg;
     }
 
+
     render() {
-        return (<Popup onClose={this.props.onClose} height={"180px"} style={this.renderStyles()}>
+        return (<Popup onClose={this.props.onClose} height={"180px"} style={this.renderStyles()} width={this.decideWidth.bind(this)("360px")}>
             <div className={styles.mainWrapper}>
             <div className={styles.dataGroup}>
                 <DataRow label="Label" value={this.state.vehicleName} onChange={(e)=>this.inputHandler('name',e.target.value)}/>

@@ -50,13 +50,17 @@ class PlayBar extends React.Component {
         this.setState({leftOffset:position})
     }
 
+    mobileSize() {
+        if (this.props.isMobile) return {width:"100%"}
+    }
+
 
     render() {
-        return (<div className={styles.mainWrapper} onMouseDown={e=>document.clickedOnStatus=true} style={this.props.isMobile?{width:"400px"}:{}}>
+        return (<div className={styles.mainWrapper}  onMouseDown={e=>document.clickedOnStatus=true} style={this.mobileSize.bind(this)()}>
             <div className={styles.topbar}>
+                <div className={styles.timeWrapper}>{this.state.selectedTime}</div>
                 <div className={styles.closeButton} onClick={()=>{this.props.setShowingTrip(false)}}><MdClose/></div>
             </div>
-            <div className={styles.timeWrapper}>{this.state.selectedTime}</div>
             <div className={styles.playbar} ref={this.barRef} onClick={this.barClickHandler.bind(this)}>
                 <div className={styles.playdot} style={{left:`${this.state.leftOffset*100}%`}}></div>
             </div>

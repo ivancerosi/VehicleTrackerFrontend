@@ -7,13 +7,14 @@
     z-index: 999;
     color: black;
     border-radius: 5px;
+    box-sizing: content-box;
 }
 .popupMain>*{
     color:black;
 }
 
 .shadeOverlay {
-    position: absolute;
+    position: fixed;
     top:0px;
     left:0px;
     background-color: rgb(0,0,0,0.5);
@@ -26,11 +27,13 @@
 .topBar {
     display:flex;
     flex-direction: row;
+    height:20px;
     width:100%;
     background-color: var(--sidebar-color-default);
-    justify-content: end;
 }
 
 .closeWrapper {
     cursor: pointer;
+    position:absolute;
+    right:5px;
 }

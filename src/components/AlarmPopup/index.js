@@ -4,7 +4,7 @@ import styles from "./AlarmPopup.module.css";
 import DataRow from "../DataRow";
 import { connect } from "react-redux";
 import { updateAlarmData } from "../../redux/actions";
-import { getAlarmData } from "../../redux/selectors";
+import { getAlarmData, isMobile } from "../../redux/selectors";
 import {AiOutlineClose} from 'react-icons/ai';
 import { deleteEmail, getEmails, getSettings, postEmail, updateSettings, updateSettingsAll } from "../../utils/Fetcher";
 
@@ -118,9 +118,21 @@ class AlarmPopup extends React.Component {
 
     }
 
+    renderStyle() {
+        const style={left:this.decideLeft(), top:"80px", transform:"translate(0%,0%)"};
+        return style;
+    }
+
+    decideWidth() {
+        if (this.props.isMobile) {
+            return "95vw";
+        }
+        return null;
+    }
+
     decideLeft=()=>this.props.isMobile?"0px":"188px";
     render() {
-        return (<Popup onClose={this.props.onClose}  style={{left:this.decideLeft(), top:"80px", transform:"translate(0%,0%)"}}>
+        return (<Popup onClose={this.props.onClose}  style={this.renderStyle.bind(this)()} width={this.decideWidth.bind(this)()}>
             <div className={styles.dataGroup}>
                 <div className={styles.groupTitle}>Limits</div>
                 <DataRow label={"Speed limit (km/h)"} inputRef={this.speedRef} style={{"borderBottom":"none"}} />
@@ -146,7 +158,7 @@ class AlarmPopup extends React.Component {
         </Popup>);
     }
 }
-const mapStateToProps=(state)=>({alarmData:getAlarmData(state)});
+const mapStateToProps=(state)=>({alarmData:getAlarmData(state), isMobile:isMobile(state)});
 const mapDispatchToProps=({
     updateAlarmData
 });

@@ -12,7 +12,7 @@
     width:200px;
     display: flex;
     flex-direction: column;
-    transition:2s;
+    transition:0.5s;
 }
 
 
@@ -177,6 +177,18 @@
     user-select: none;
     background-color: red;
     width:100px;
+    font-size: 12px;
+    text-align: center;
+    color: white;
+    border-radius: 5px;
+}
+
+.hideBtn {
+    margin: 5px 2px 5px auto;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--sidebar-color-default);
+    width:50px;
     font-size: 12px;
     text-align: center;
     color: white;

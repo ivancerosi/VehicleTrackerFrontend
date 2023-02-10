@@ -44,10 +44,15 @@ class RoutePopup extends React.Component {
             this.props.setRoute(this.fromRef.current.value, this.toRef.current.value);
             this.props.onClose();
         }
+    } 
+    decideWidth(arg) {
+        if (this.props.isMobile) return "95vw";
+        else return arg;
     }
 
+
     render() {
-        return (<Popup onClose={this.props.onClose} height={"180px"} width={"350px"} style={this.renderStyles()}>
+        return (<Popup onClose={this.props.onClose} height={"180px"} width={this.decideWidth.bind(this)("350px")} style={this.renderStyles()}>
             <div className={styles.dataGroup}>
                 <div className={styles.groupTitle}>Select start and end time</div>
                 <div><div style={{width:"100px"}}>From:</div><input type="datetime-local" ref={this.fromRef} /></div>

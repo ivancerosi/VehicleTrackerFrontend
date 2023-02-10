@@ -55,9 +55,14 @@ class TripsPopup extends React.Component {
         return {left:"50%", top:"50%", transform:"translate(-50%,-50%)"};
     }
 
+    decideWidth(arg) {
+        if (this.props.isMobile) return "95vw";
+        else return arg;
+    }
+
     render() {
         return (
-            <Popup onClose={this.props.onClose} height={"180px"} width={"350px"} style={this.renderStyles()}>
+            <Popup onClose={this.props.onClose} height={"180px"} width={this.decideWidth.bind(this)("350px")} style={this.renderStyles()}>
                 <div className={styles.dataGroup}>
                     <div className={styles.groupTitle}>Click on one of the routes to show it on map</div>
                     <hr style={{width:"100%"}}/>

@@ -11,7 +11,7 @@ const ICON_COLOR="white";
 
 class VehicleStatus extends React.Component {
     mobileStyle() {
-        if (this.props.isMobile) return {width:"400px"}
+        if (this.props.isMobile) return {width:"100%"}
     }
 
     moveMarginOnMobile() {
@@ -66,9 +66,9 @@ class VehicleStatus extends React.Component {
                 </div>
                 <div className={[styles.row, styles.rowBottom].join(" ")}>
                     <div className={styles.sensorCell}>
-                        <div className={styles.sensorValue}>{this.props.vehicle.direction}</div>
+                        <div className={styles.sensorValue}>{new Date(this.props.vehicle.time).toLocaleString()}</div>
                         <div className={styles.sensorIcon}><BsFillCompassFill size={this.ICON_SIZE} color={ICON_COLOR}/></div>
-                        <span className={styles.tooltip}>Vehicle's last reported direction</span>
+                        <span className={styles.tooltip}>Vehicle's last date of report</span>
                     </div>
                     <div className={styles.sensorCell}>
                         <div className={styles.sensorValue}>{this.props.vehicle.speed} m/s</div>
